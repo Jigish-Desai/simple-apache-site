@@ -1,0 +1,34 @@
+#Generate Github Actions workflow to deploy Apache web server
+
+name: Deploy Apache Web Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Apache
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y apache2
+
+      - name: Start Apache service
+        run: |
+          sudo systemctl start apache2
+
+      - name: Deploy web content
+        run: |
+          sudo rm -rf /var/www/html/*
+          sudo cp -r * /var/www/html/
+
+      - name: Verify deployment
+        run: |
+          curl XXXXXXXXXXXXXXXX
